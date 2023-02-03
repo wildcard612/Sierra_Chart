@@ -5,6 +5,8 @@ df = pd.read_csv('jan.csv')
 
 profits = df['Max Open Profit (C)']
 losses = df['Max Open Loss (C)']
+real_profit_or_loss = df['Profit/Loss (C)']
+real_profit_or_loss2 = [int(x) for x in df['Profit/Loss (C)']]
 
 
 def how_many_above(ticks, stats):
@@ -26,7 +28,7 @@ def how_many_below(ticks, stats):
 # print(how_many_above(-6, loss))
 # print(how_many_below(-6, loss))
 
-#loss2 = loss.drop(loss.index[-1])
+
 
 
 #print(sum(loss[:-1]) + sum(profit[:-1]))
@@ -37,10 +39,49 @@ def total_result(stats):
         result += tick
     return result
 
-print(total_result(losses))
-def total_result_list():
-    result_list = []
-    for profit, loss in profits, losses:
-        x = profit + loss
+#print(total_result(losses))
 
-print(total_result_list())
+def sum_total_result_list():
+    result_list = []
+    res = 0
+    for profit, loss in zip (profits, losses):
+        res += profit + loss
+        result_list.append(res)
+    return  result_list
+
+
+#print(sum_total_result_list())
+def chart():
+    y = sum_total_result_list()
+    x = [x for x in range(len(y))]
+    plt.plot(x, y)
+    plt.show()
+
+def check_sl(sl=6):
+    result = 0
+    result_list = []
+    for profit, loss in zip(real_profit_or_loss2[:-1], losses[:-1]):
+        if loss <= -sl:
+            result += -sl
+        else:
+            result += profit
+        result_list.append(result)
+    return  result
+
+def best_sl(r=20):
+    for sl in range(r):
+        print(sl, check_sl(sl))
+
+def check_tp(tp=10):
+    result = 0
+    result_list = []
+    for profit, loss in zip(profits[:-1], losses[:-1]):
+        if profit >= tp:
+            result += tp
+        else:
+            result += loss
+    return result
+
+def best_tp(r=30):
+    for tp in range(r):
+        print(tp, check_tp(tp))
