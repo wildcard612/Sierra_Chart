@@ -85,3 +85,21 @@ def check_tp(tp=10):
 def best_tp(r=30):
     for tp in range(r):
         print(tp, check_tp(tp))
+
+def check_tp_and_sl(tp=13, sl=6):
+    result = 0
+    result_list = []
+    for profit, loss in zip(profits[:-1], losses[:-1]):
+        if profit >= tp and loss <= -sl:
+            result += tp
+        else:
+            result += -sl
+        print(profit, loss, tp, -sl, result)
+
+def best_tp_and_sl(p,l):
+    for tp in range(p):
+        for sl in range(l):
+            print (f'tp is {tp}, sl is {sl}, result is {check_tp_and_sl(tp, sl)}')
+        print('\n')
+
+check_tp_and_sl(15,20)
