@@ -3,15 +3,9 @@ import matplotlib.pyplot as plt
 
 df = pd.read_csv('jan.csv')
 
-profit = df['Max Open Profit (C)']
-loss = df['Max Open Loss (C)']
+profits = df['Max Open Profit (C)']
+losses = df['Max Open Loss (C)']
 
-# y = 0
-# for x in profit:
-#     if x<=5:
-#         y+=1
-# print(y)
-# print(len(profit))
 
 def how_many_above(ticks, stats):
     result = 0
@@ -32,10 +26,21 @@ def how_many_below(ticks, stats):
 # print(how_many_above(-6, loss))
 # print(how_many_below(-6, loss))
 
-def max_open_profit():
-    y = 0
-    for x in loss:
-        y += x
-        print(y)
+#loss2 = loss.drop(loss.index[-1])
 
-print(max_open_profit())
+
+#print(sum(loss[:-1]) + sum(profit[:-1]))
+
+def total_result(stats):
+    result = 0
+    for tick in stats[:-1]:
+        result += tick
+    return result
+
+print(total_result(losses))
+def total_result_list():
+    result_list = []
+    for profit, loss in profits, losses:
+        x = profit + loss
+
+print(total_result_list())
