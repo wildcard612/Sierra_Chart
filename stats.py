@@ -86,20 +86,46 @@ def best_tp(r=30):
     for tp in range(r):
         print(tp, check_tp(tp))
 
-def check_tp_and_sl(tp=13, sl=6):
+# def check_tp_and_sl(tp=13, sl=6):
+#     result = 0
+#     result_list = []
+#     for profit, loss in zip(profits[:-1], losses[:-1]):
+#
+#         if profit < tp or loss <= -sl:
+#             result += -sl
+#         else:
+#             result += tp
+#         result_list.append(result)
+#     return result_list
+#
+# def best_tp_and_sl(p,l):
+#     for tp in range(p):
+#         for sl in range(l):
+#             print (f'tp is {tp}, sl is {sl}, result is {check_tp_and_sl(tp, sl)[-1]}')
+#         print('\n')
+
+# best_tp_and_sl(10,10)
+
+#print(check_tp_and_sl(20,2))
+
+def check_tp_and_sl(tp, sl):
     result = 0
-    result_list = []
-    for profit, loss in zip(profits[:-1], losses[:-1]):
-        if profit >= tp and loss <= -sl:
+    for profit, loss in zip(profits, losses):
+        if profit >= tp:
             result += tp
-        else:
-            result += -sl
-        print(profit, loss, tp, -sl, result)
+        elif loss <= -sl:
+            result -= sl
+    return result
 
-def best_tp_and_sl(p,l):
-    for tp in range(p):
-        for sl in range(l):
-            print (f'tp is {tp}, sl is {sl}, result is {check_tp_and_sl(tp, sl)}')
-        print('\n')
+def best_tp_and_sl(p, l):
+    max_result = float('-inf')
+    best_tp, best_sl = 0, 0
+    for tp in range(1, p+1):
+        for sl in range(1, l+1):
+            result = check_tp_and_sl(tp, sl)
+            if result > max_result:
+                max_result = result
+                best_tp, best_sl = tp, sl
+    return best_tp, best_sl, max_result
 
-check_tp_and_sl(15,20)
+print(best_tp_and_sl(100,100))
