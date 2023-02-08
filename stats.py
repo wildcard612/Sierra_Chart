@@ -110,11 +110,23 @@ def best_tp(r=30):
 
 def check_tp_and_sl(tp, sl):
     result = 0
+
+    for profit, loss in zip(profits, losses):
+
+        if loss <= -sl:
+            result -= sl
+        elif profit >= tp:
+            result += tp
+    return result
+
+def check_rev_tp_and_sl(tp, sl):
+    result = 0
     for profit, loss in zip(profits, losses):
         if profit >= tp:
-            result += tp
+            result -= tp
+
         elif loss <= -sl:
-            result -= sl
+            result += sl
     return result
 
 def best_tp_and_sl(p, l):
@@ -128,4 +140,16 @@ def best_tp_and_sl(p, l):
                 best_tp, best_sl = tp, sl
     return best_tp, best_sl, max_result
 
-print(best_tp_and_sl(100,100))
+def best_tp_and_sl_rev(p, l):
+    max_result = float('-inf')
+    best_tp, best_sl = 0, 0
+    for tp in range(1, p+1):
+        for sl in range(1, l+1):
+            result = check_rev_tp_and_sl(tp, sl)
+            if result > max_result:
+                max_result = result
+                best_tp, best_sl = tp, sl
+    return best_tp, best_sl, max_result
+
+print(best_tp_and_sl(50, 12))
+print(best_tp_and_sl_rev(30,12))
