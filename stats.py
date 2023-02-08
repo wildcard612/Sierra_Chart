@@ -138,7 +138,7 @@ def best_tp_and_sl(p, l):
             if result > max_result:
                 max_result = result
                 best_tp, best_sl = tp, sl
-    return best_tp, best_sl, max_result
+    return f'tp {best_tp}$, sl  {best_sl}$, res {max_result}$'
 
 def best_tp_and_sl_rev(p, l):
     max_result = float('-inf')
@@ -149,7 +149,7 @@ def best_tp_and_sl_rev(p, l):
             if result > max_result:
                 max_result = result
                 best_tp, best_sl = tp, sl
-    return best_tp, best_sl, max_result
+    return f'sl {best_tp}$, tp  {best_sl}$, res {max_result}$'
 
 print(best_tp_and_sl(50, 12))
-print(best_tp_and_sl_rev(30,12))
+print(best_tp_and_sl_rev(25,12))
