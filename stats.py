@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from math import fabs
 
 df = pd.read_csv('jan.csv')
 
@@ -110,24 +111,50 @@ def best_tp(r=30):
 
 def check_tp_and_sl(tp, sl):
     result = 0
-
+    sle = 0
+    tpki = 0
+    rdd = 0
+    max_result = 0
     for profit, loss in zip(profits, losses):
 
         if loss <= -sl:
             result -= sl
+            sle += 1
+
         elif profit >= tp:
             result += tp
-    return result
+            tpki += 1
+
+        if result > max_result:
+            max_result = result
+        dd = max_result - result
+
+        if rdd < dd:
+            rdd = dd
+    return result, sle, tpki, rdd
 
 def check_rev_tp_and_sl(tp, sl):
     result = 0
+    sle = 0
+    tpki = 0
+    max_result = 0
+    rdd = 0
     for profit, loss in zip(profits, losses):
         if profit >= tp:
             result -= tp
+            sle += 1
 
         elif loss <= -sl:
             result += sl
-    return result
+            tpki +=1
+
+        if result > max_result:
+            max_result = result
+        dd = max_result - result
+
+        if rdd < dd:
+            rdd = dd
+    return result, sle, tpki, rdd
 
 def best_tp_and_sl(p, l):
     max_result = float('-inf')
@@ -151,5 +178,8 @@ def best_tp_and_sl_rev(p, l):
                 best_tp, best_sl = tp, sl
     return f'sl {best_tp}$, tp  {best_sl}$, res {max_result}$'
 
-print(best_tp_and_sl(50, 12))
-print(best_tp_and_sl_rev(25,12))
+# print(best_tp_and_sl(50, 12))
+# print(best_tp_and_sl_rev(35,12))
+
+print(check_tp_and_sl(32,2))
+print(check_rev_tp_and_sl(33,11))
